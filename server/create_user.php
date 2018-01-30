@@ -1,45 +1,37 @@
 <?php
-$mysqli = new mysqli("localhost", "root", "", "agenda");
+require_once "conexion.php";
+if ($php_response["msg"]=="OK"){
+	$u_exiten = mysqli_query($conexion, "SELECT * FROM usuarios");
+	if (mysqli_num_rows($u_exiten) > 0 ){
+		$php_response['obser']= "los usaurios ya existen ";
+	
+	}else{
 
-/* verificar conexión */
-if (mysqli_connect_errno()) {
-    printf("Eror de conexcion %s\n", mysqli_connect_error());
-    exit();
+		$email = "gabioh2012@gmail.com";
+		$nombre="Gabriel Pacheco ";
+		$password =md5("123456");
+		$fecha_nacimiento = "1982/07/08";
+		$crear = $conexion->prepare("INSERT INTO usuarios (email, nombre, password, fecha_nacimiento) VALUES (?,?,?,?)"); 
+		$crear->bind_param("ssss", $email, $nombre, $password, $fecha_nacimiento);
+		$crear->execute();
+
+		$email = "OtroMansitoMedioRaro@mansitogil.com";
+		$nombre="Elver Melano ";
+		$password =md5("123456");
+		$fecha_nacimiento = "1982/07/08";
+		$crear->bind_param("ssss", $email, $nombre, $password, $fecha_nacimiento);
+		$crear->execute();
+
+		$email = "OtroMansito2MedioMariado@mansitogil.com";
+		$nombre="Rosa Galarga ";
+		$password =md5("123456");
+		$fecha_nacimiento = "1982/07/08";
+		$crear->bind_param("ssss", $email, $nombre, $password, $fecha_nacimiento);
+		$crear->execute();
+	}	
+	$cumple = date('Y/m/d',strtotime("1982/07/08"));
+	
+
+
+
 }
-
-$email = "gabioh2012@gmail.com";
-$nombre = "Gabriel Pacheco";
-$password=md5("sex2004");
-$fecha_nacimiento = date("Y/m/d", strtotime("1982/07/08"));
-
-/* crear una sentencia preparada */
-if ($stmt = $mysqli->prepare("INSERT INTO usuarios (email,nombre,password,fecha_nacimiento) VALUES (?,?,?,?)")) {
-
-    
-    $stmt->bind_param("ssss", $email,$nombre,$password,$fecha_nacimiento);
-      $stmt->execute();
-
-	$email = "otromansito@gmail.com";
-	$nombre = "Otro Mansito";
-	$password=md5("123456");
-	$fecha_nacimiento = date("Y/m/d", strtotime("1992/07/08"));
-
-
-	$stmt->bind_param("ssss", $email,$nombre,$password,$fecha_nacimiento);
-	 $stmt->execute();
-
-	$email = "otromansit2o@gmail.com";
-	$nombre = "EOtro Mansito";
-	$password=md5("123456");
-	$fecha_nacimiento = date("Y/m/d", strtotime("1982/07/08"));
-
-    $stmt->bind_param("ssss", $email,$nombre,$password,$fecha_nacimiento);
-    $stmt->execute();
-
-    
-} else{
-	mysql_error();
-}
-/* cerrar conexión */
-$mysqli->close();
-?>

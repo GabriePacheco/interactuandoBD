@@ -1,31 +1,29 @@
 <?php
-	$conexion = new mysqli("localhost", "root", "", "agenda");
-	if ($conexion){
+	require_once "conexion.php";
+	if (!$conexion->error){
 		session_start();
-		if ($_SESSION['agendaID']){
-			$eventos= mysqli_query($conexion, "SELECT * FROM agenda where fk_usuario = 1");
-			$row_eventos = mysqli_fetch_assoc($eventos);
-			$php_reponse["msg"]="OK";
-			$php_reponse["eventos"]=[];
-			while ($row = mysqli_fetch_assoc($eventos)) {
-					$php_reponse["eventos"].= $row . ",";
-				}	
-			
-			
-			
+		if (!$_SESSION['agendaID']){
+			$php_response['msg']= "La sesion a caducado ";
 
 		}else{
-			$php_reponse["msg"]="La secion a caducado ";
+			$id = $_SESSION['agendaID'];
+	  	
+	  		
+			$consulta = "SELECT * FROM agenda WHERE fk_usuario = '$id'" ;
+			if ($resultado = mysqli_query($conexion, $consulta)) {
+			    while ($obj = mysqli_fetch_object($resultado)) {
+					$php_response["eventos"][]= $obj;
+			    }			
+			    
+			    mysqli_free_result($resultado);
+			}									
 		}
-	
+
+
+
 	}else{
-		$php_reponse["msg"]="No se pudo conectar con el servidor";
-
+		$php_response['msg']= "Error de conexion al servidor" ;
 	}
-	echo json_encode($php_reponse);
-  	
-
-
-
+	echo json_encode($php_response);
 
  ?>

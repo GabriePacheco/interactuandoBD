@@ -13,7 +13,7 @@
 			$hora_fin	=date("H:i:s",strtotime($_POST['end_hour']));//*date("H:i:s" );*/
 		
 
-			$add_evento = mysqli_query($conexion, "UPDATE agenda SET fecha_inicio= '$fecha_inicio', hora_inico='$hora_inicio', fecha_fin = '$fecha_fin', hora_fin='$hora_fin' where id = '$id' ");
+			$add_evento = mysqli_query($conexion, "UPDATE agenda SET start= '$fecha_inicio', start_hour='$hora_inicio', end = '$fecha_fin', end_hour='$hora_fin' where id = '$id' ");
 			$php_reponse["msg"]="OK";
 			
 			

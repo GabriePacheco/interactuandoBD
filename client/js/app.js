@@ -52,7 +52,7 @@ class EventsManager {
           eventDrop: (event) => {
               this.actualizarEvento(event)
           },
-          events: [eventos],
+          events: eventos,
           eventDragStart: (event,jsEvent) => {
             $('.delete-btn').find('img').attr('src', "img/trash-open.png");
             $('.delete-btn').css('background-color', '#a70f19')
@@ -156,7 +156,7 @@ class EventsManager {
     }
 
     actualizarEvento(evento) {
-      console.log (evento.id);
+
         let id = evento.id,
             start = moment(evento.start).format('YYYY-MM-DD HH:mm:ss'),
             end = moment(evento.end).format('YYYY-MM-DD HH:mm:ss'),
