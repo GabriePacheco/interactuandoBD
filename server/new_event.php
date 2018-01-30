@@ -11,8 +11,9 @@ $conexion = new mysqli("localhost", "root", "", "agenda");
 			$hora_fin	=$_POST['end_hour'];//*date("H:i:s" );*/
 			$dia	=$_POST['allDay']; /*1;*/
 
-			$add_evento = mysqli_query($conexion, "INSERT INTO agenda (titulo, fecha_inicio, hora_inico, fecha_fin, hora_fin, dia,fk_usuario) VALUES ('$titulo','$fecha_inicio', '$hora_inicio', '$fecha_fin', '$hora_fin', $dia, $fk_usuario)");
+			$add_evento = mysqli_query($conexion, "INSERT INTO agenda (titulo, fecha_inicio, hora_inico, fecha_fin, hora_fin, dia,fk_usuario) VALUES ('$titulo','$fecha_inicio', '$hora_inicio', '$fecha_fin', '$hora_fin', $dia, $fk_usuario)") ;
 			$php_reponse["msg"]="OK";
+			$php_reponse["id"]=$conexion->insert_id;
 
 		}else{
 			$php_reponse["msg"]="La secion a caducado ";

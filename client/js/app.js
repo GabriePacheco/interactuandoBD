@@ -19,6 +19,7 @@ class EventsManager {
           success: (data) =>{
             if (data.msg=="OK") {
               this.poblarCalendario(data.eventos)
+
             }else {
               alert(data.msg)
               window.location.href = 'index.html';
@@ -32,13 +33,16 @@ class EventsManager {
     }
 
     poblarCalendario(eventos) {
+       
+     
+
         $('.calendario').fullCalendar({
             header: {
         		left: 'prev,next today',
         		center: 'title',
         		right: 'month,agendaWeek,basicDay'
         	},
-        	defaultDate: '2016-11-01',
+        	defaultDate: new Date(),
         	navLinks: true,
         	editable: true,
         	eventLimit: true,
@@ -48,10 +52,11 @@ class EventsManager {
           eventDrop: (event) => {
               this.actualizarEvento(event)
           },
-          events: eventos,
+          events: [eventos],
           eventDragStart: (event,jsEvent) => {
             $('.delete-btn').find('img').attr('src', "img/trash-open.png");
             $('.delete-btn').css('background-color', '#a70f19')
+
           },
           eventDragStop: (event,jsEvent) =>{
             var trashEl = $('.delete-btn');
@@ -102,16 +107,15 @@ class EventsManager {
                 allDay: true
               })
             }else {
+            
               $('.calendario').fullCalendar('renderEvent', {
+                id: data.id ,   
                 title: $('#titulo').val(),
                 start: $('#start_date').val()+" "+$('#start_hour').val(),
                 allDay: false,
                 end: $('#end_date').val()+" "+$('#end_hour').val()
               })
             }
-
-
-
 
           }else {
             alert(data.msg)
@@ -125,7 +129,7 @@ class EventsManager {
     }
 
     eliminarEvento(event, jsEvent){
-
+    console.log(event.id);
       var form_data = new FormData()
       form_data.append('id', event.id)
       $.ajax({
@@ -152,6 +156,7 @@ class EventsManager {
     }
 
     actualizarEvento(evento) {
+      console.log (evento.id);
         let id = evento.id,
             start = moment(evento.start).format('YYYY-MM-DD HH:mm:ss'),
             end = moment(evento.end).format('YYYY-MM-DD HH:mm:ss'),
